@@ -133,6 +133,8 @@ body {
 	margin: auto;
 	font-family: "Work Sans";
 	font-size: 14px;
+	height: 100%;
+	background-color: #FFFEF8;
 }
 header {
 	display: flex;
@@ -287,14 +289,50 @@ footer nav ul {
 	font-size: 16px;
 	line-height: 19px;
 	text-align: center;
-}
-
-.rounded:hover {
-	color: #fff;
-	background-color: #1d6154;
+	transform: scale(1);
+	transition:transform 150ms ease;
 }
 
 .--selected{
 	color: #fff;
 	background-color: #1d6154;
+	/* transform: scale(1.025);
+	transition:transform 150ms ease; */
+}
+
+.rounded:hover{
+	transform: scale(1.025);
+	transition:transform 150ms ease;
+}
+
+
+#login {
+	width: 50%;
+	margin: auto;
+	margin-bottom:300px ;
+}
+#login > * {
+	text-align: center;
+}
+#login h2 {
+	margin-bottom: 20px;
+}
+#login form {
+	text-align: left;
+	margin-top: 30px;
+	display: flex;
+	flex-direction: column;
+}
+#login input {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#login label {
+	margin: 2em 0 1em 0;
+}
+#login textarea {
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }

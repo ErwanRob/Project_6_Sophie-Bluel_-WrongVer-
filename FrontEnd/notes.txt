@@ -1,0 +1,66 @@
+/*
+//Version Sans le Set() et la selection multiple de filtres
+async function getWorksDataOnLoad() {
+    const response = await fetch(`http://localhost:5678/api/works`);
+    const works = await response.json();
+    generateWorks(works);
+
+    btnAll.addEventListener("click", function () {
+        document.querySelector(".gallery").innerHTML = "";
+        generateWorks(works);
+    })
+
+    btnObj.addEventListener("click", function () {
+        const objWork = works.filter(function (work) {
+            return work.categoryId === 1;
+        });
+        document.querySelector(".gallery").innerHTML = "";
+        generateWorks(objWork);
+        console.log(objWork)
+    })
+
+    btnAppart.addEventListener("click", function () {
+        const appartWork = works.filter(function (work) {
+            return work.categoryId === 2;
+        });
+        document.querySelector(".gallery").innerHTML = "";
+        generateWorks(appartWork);
+        console.log(appartWork)
+    })
+
+    btnHotRest.addEventListener("click", function () {
+        const HotRestWork = works.filter(function (work) {
+            return work.categoryId === 3;
+        });
+        document.querySelector(".gallery").innerHTML = "";
+        generateWorks(HotRestWork);
+        console.log(HotRestWork)
+    })
+}
+
+function generateWorks(works) {
+    for (let i = 0; i < works.length; i++) {
+        const work = works[i];
+        const gallery = document.querySelector(".gallery");
+        const workElement = document.createElement("figure");
+        const workImage = document.createElement("img");
+        const workTitle = document.createElement("figcaption");
+        workImage.src = work.imageUrl;
+        workTitle.innerText = work.title;
+        gallery.appendChild(workElement);
+        workElement.appendChild(workImage);
+        workElement.appendChild(workTitle);
+       /*  console.log(i + " Generated work"); */
+       /*  console.log(work.categoryId) */
+    }
+}
+
+const btnAll = document.querySelector('button[data-filter="0"]');
+const btnObj = document.querySelector('button[data-filter="1"]');
+const btnAppart = document.querySelector('button[data-filter="2"]');
+const btnHotRest = document.querySelector('button[data-filter="3"]');
+
+
+getWorksDataOnLoad();
+
+*/
