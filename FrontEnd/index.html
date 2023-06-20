@@ -9,31 +9,86 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
 		rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 	<script src="script.js" defer></script>
 </head>
 
 <body>
+	<div class="top-blackLine">
+		<div class="top-blackLine_nav">
+			<a href="#" class="editionModeBtn"><i class="fa-regular fa-pen-to-square"></i> Mode édition</a>
+			<a href="#" class="publicateChangesBtn">publier les changements</a>
+		</div>
+	</div>
 	<header>
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 		<nav>
 			<ul>
 				<li>projets</li>
 				<li>contact</li>
-				<li><a href="./login.html">login</a></li>
+				<li><a href="./login.html" id="logB">login</a></li>
+				<!-- adjustedHeader a rajouter  -->
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
 		</nav>
 	</header>
+	<!-- Modal -->
+	<div class="modal" id="sbModal">
+		<div class="modal-content manageGallery">
+			<span class="close">&times;</span>
+			<!-- Modal content1 -->
+			<div class="modal_title">Galerie Photo</div>
+			<div class="smlGallery">
+				<!-- JS script adds figures/img here -->
+			</div>
+			<button class="addPic_btn rounded --selected">Ajouter une photo</button>
+			<button class="delete_btn">Supprimer une gallerie</button>
+		</div>
+
+		<div class="modal-content managePic">
+			<span class="close">&times;</span>
+			<span class="previous"><i class="fa-solid fa-arrow-left"></i></span>
+			<!-- Modal content2 -->
+			<div class="modal_title">Ajouter Photo</div>
+
+
+			<!-- 	<div class="pic_add-img">Add a photohere</div> --><!-- A mettre dans le formulaire ?? -->
+
+			<!-- <i class="fa-regular fa-image addPicIcon"></i>
+			<p class="addPic_Description-title">Ajouter une photo</p>
+			<p class="addPic_Description-byline">jpg, png : 4mo max</p> -->
+
+			<form action="#" id="submitForm" enctype="multipart/form-data">
+				<label for="photo" class="pic_add-img-label"></label>
+				<input type="file" id="photo" name="photo" accept=".png, .jpg"/>
+				
+				<label for="nomProjet" class="pic_add-title-label">Titre</label>
+				<input type="text" id="nomProjet" name="nomProjet" class="select-title" value="Jeanbernard"/>
+				
+				<label for="cat" class="pic_add-category-label">Catégorie</label>
+				<select name="category" id="cat" class="select-category">
+
+					<!-- Options added via js funct generateCategoriesInModal()-->
+				</select>
+				
+				<input type="submit" value="Valider" id="submitBtn" />
+			</form>
+
+		</div>
+	</div>
 	<main>
 		<section id="introduction">
 			<figure>
 				<img src="./assets/images/sophie-bluel.png" alt="">
+				<a href="#" class="modify --adjustedmodify" id="modifyProfil"><i
+						class="fa-regular fa-pen-to-square"></i> Modifier</a>
 			</figure>
 			<article>
 				<h2>Designer d'espace</h2>
-				<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison
+				<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la
+					livraison
 					finale du chantier.</p>
 				<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les
 					couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du
@@ -43,8 +98,10 @@
 			</article>
 		</section>
 		<section id="portfolio">
-			<h2>Mes Projets</h2>
-		
+			<div id="portfolio_header">
+				<h2>Mes Projets</h2>
+				<button class="modify" id="modifyProject"><i class="fa-regular fa-pen-to-square"></i> Modifier</a>
+			</div>
 			<div class="filter-menu">
 				<button class="filter-option rounded" data-filter="0">Tous</button>
 				<button class="filter-option rounded" data-filter="1">Objets</button>
@@ -53,50 +110,6 @@
 			</div>
 
 			<div class="gallery">
-				<!-- <figure>
-					<img src="assets/images/abajour-tahina.png" alt="Abajour Tahina">
-					<figcaption>Abajour Tahina</figcaption>
-				</figure>
-				<figure>
-					<img src="assets/images/appartement-paris-v.png" alt="Appartement Paris V">
-					<figcaption>Appartement Paris V</figcaption>
-				</figure>
-				<figure>
-					<img src="assets/images/restaurant-sushisen-londres.png" alt="Restaurant Sushisen - Londres">
-					<figcaption>Restaurant Sushisen - Londres</figcaption>
-				</figure>
-				<figure>
-					<img src="assets/images/la-balisiere.png" alt="Villa “La Balisiere” - Port Louis">
-					<figcaption>Villa “La Balisiere” - Port Louis</figcaption>
-				</figure>
-				<figure>
-					<img src="assets/images/structures-thermopolis.png" alt="Structures Thermopolis">
-					<figcaption>Structures Thermopolis</figcaption>
-				</figure>
-				<figure>
-					<img src="assets/images/appartement-paris-x.png" alt="Appartement Paris X">
-					<figcaption>Appartement Paris X</figcaption>
-				</figure>
-				<figure>
-					<img src="assets/images/le-coteau-cassis.png" alt="Pavillon “Le coteau” - Cassis">
-					<figcaption>Pavillon “Le coteau” - Cassis</figcaption>
-				</figure>
-				<figure>
-					<img src="assets/images/villa-ferneze.png" alt="Villa Ferneze - Isola d’Elba">
-					<figcaption>Villa Ferneze - Isola d’Elba</figcaption>
-				</figure>
-				<figure>
-					<img src="assets/images/appartement-paris-xviii.png" alt="Appartement Paris XVIII">
-					<figcaption>Appartement Paris XVIII</figcaption>
-				</figure>
-				<figure>
-					<img src="assets/images/bar-lullaby-paris.png" alt="Bar “Lullaby” - Paris">
-					<figcaption>Bar “Lullaby” - Paris</figcaption>
-				</figure>
-				<figure>
-					<img src="assets/images/hotel-first-arte-new-delhi.png" alt="Hotel First Arte - New Delhi">
-					<figcaption>Hotel First Arte - New Delhi</figcaption>
-				</figure> -->
 			</div>
 		</section>
 		<section id="contact">

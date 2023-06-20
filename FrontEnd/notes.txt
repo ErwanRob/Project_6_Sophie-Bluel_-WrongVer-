@@ -64,3 +64,58 @@ const btnHotRest = document.querySelector('button[data-filter="3"]');
 getWorksDataOnLoad();
 
 */
+
+
+/*
+  To make a POST request to the /users/login endpoint and send the user's 
+  email and password for login, you can use JavaScript's fetch() function. 
+  Here's an example code snippet that demonstrates how to make the request:*/
+
+/*In this example, the login() function takes the email and password as
+parameters and sends a POST request to the /users/login endpoint with the provided data.
+ The response from the server is logged to the console for demonstration purposes. 
+ You can modify the code inside the then() blocks to handle the response and perform 
+ appropriate actions based on the login result.
+Make sure to replace /users/login with the appropriate URL of your backend API endpoint.*/
+
+
+
+
+
+
+
+
+
+// Use the selectedWork variable when pressing another button
+  // For example, on a delete button click
+
+
+/*
+deleteButton.addEventListener("click", function () {
+  if (selectedWork) {
+    // Perform deletion logic using the selected work
+    // For example: deleteWork(selectedWork);
+    console.log("Deleting work:", selectedWork);
+
+    // Clear the selected work
+    selectedWork = null;
+  }
+});
+*/
+
+
+/* modalCloseBtn.addEventListener('click', function () {
+    modal.style.display = 'none'
+    main.classList.remove('--blurEffect')
+    header.classList.remove('--blurEffect')
+    body.classList.remove('--grayEffect')
+});
+ */
+
+/*  
+    const loginB = document.getElementById('loginB')
+    loginB.style.display ="none";
+    const logoutB = document.getElementById('logoutB')
+    logoutB.style.display ="flex"; */
+
+
