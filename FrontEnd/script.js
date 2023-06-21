@@ -25,7 +25,7 @@ const buttons = document.querySelectorAll('.filter-option[data-filter]');
 //Set() permettant de stocker les filtres actifs
 const activeFilters = new Set();
 let works = [];
-let categorySelection = document.getElementById('cat');
+let categorySelection = document.getElementById('category');
 
 
 // EVT LISTENERS  --------------
@@ -96,12 +96,12 @@ async function refreshGallery() {
 }
 //Fonction qui nettoie la galerie et affiche la liste de travaux spécifié
 function cleanseAndShow(workList) {
-    console.log('CleanseandShowStart')
+    /* console.log('CleanseandShowStart') */
     mainGallery.innerHTML = "";
     generateWorks(workList);
     smlGallery.innerHTML = "";
     generateModalWorks(workList);
-    console.log('CleanseandShowEnd')
+    /* console.log('CleanseandShowEnd') */
 }
 
 async function getWorksDataOnLoad() {
@@ -255,19 +255,22 @@ form.addEventListener('submit', async function (event) {
     const category = formData.get('category');
     console.log('category:', category);
   
+    console.log(formData)
    /*  for (const pair of formData.entries()) {
       console.log(`${pair[0]}: ${pair[1]}`);
     } */
-  
-    
-   
     try {
       const response = await fetch('http://localhost:5678/api/works', {
         headers: {
           'Authorization': `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
         },
         method: 'POST',
-        body: formData
+        body: {
+            "title": "Untrire",
+            "image": "Blabla",
+            "category": 1
+          }
       });
   
       if (response.status === 201) {

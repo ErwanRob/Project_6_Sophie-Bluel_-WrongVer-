@@ -60,15 +60,15 @@
 			<p class="addPic_Description-title">Ajouter une photo</p>
 			<p class="addPic_Description-byline">jpg, png : 4mo max</p> -->
 
-			<form action="#" id="submitForm" enctype="multipart/form-data">
+			<form id="submitForm" enctype="multipart/form-data">
 				<label for="photo" class="pic_add-img-label"></label>
-				<input type="file" id="photo" name="photo" accept=".png, .jpg"/>
+				<input name="photo" type="file" id="photo" accept=".png, .jpg"/>
 				
 				<label for="nomProjet" class="pic_add-title-label">Titre</label>
-				<input type="text" id="nomProjet" name="nomProjet" class="select-title" value="Jeanbernard"/>
+				<input name="nomProjet" type="text" id="nomProjet" class="select-title" value="Jeanbernard"/>
 				
-				<label for="cat" class="pic_add-category-label">Catégorie</label>
-				<select name="category" id="cat" class="select-category">
+				<label for="category" class="pic_add-category-label">Catégorie</label>
+				<select name="category" id="category" class="select-category">
 
 					<!-- Options added via js funct generateCategoriesInModal()-->
 				</select>
