@@ -119,3 +119,16 @@ deleteButton.addEventListener("click", function () {
     logoutB.style.display ="flex"; */
 
 
+
+
+ /* const image = formData.get('image');
+    console.log('image', image);
+    const title = formData.get('title');
+    console.log('title:', title);
+    const category = formData.get('category');
+    console.log('category:', category);
+
+    console.log(formData)
+    for (const pair of formData.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+    } */

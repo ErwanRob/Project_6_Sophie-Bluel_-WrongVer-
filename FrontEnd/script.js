@@ -1,4 +1,4 @@
-//CONSTS ----------
+//---------- CONSTS ----------
 const token = localStorage.getItem('token');
 const logInOutBtn = document.getElementById('logB')
 const main = document.querySelector('main')
@@ -6,7 +6,7 @@ const header = document.querySelector('header')
 const body = document.querySelector('body')
 const mainGallery = document.querySelector(".gallery");
 const smlGallery = document.querySelector(".smlGallery");
-/*Modal*/
+/*Modal consts*/
 const modifyProfilBtn = document.getElementById('modifyProfil')
 const modifyButton = document.getElementById('modifyProject')
 const modal = document.getElementById('sbModal')
@@ -16,26 +16,39 @@ const managePic = document.querySelector('.managePic')
 const addAPictureBtn = document.querySelector('.addPic_btn')
 const arrowLeft = document.querySelector('.previous')
 const form = document.getElementById('submitForm')
-/*TopBlackLine*/
+let isModalOpen = false;
+/*TopBlackLine consts*/
 const topBlackLine = document.querySelector('.top-blackLine')
-//On récupère la référence du bouton "TOUS" qui se comporte différement
+const editionModeBtn = document.querySelector('.editionModeBtn')
+const publicateChangesBtn = document.querySelector('.publicateChangesBtn')
+//Gathering the "ALL" filter button which has a different behavior
 const btnAll = document.querySelector('button[data-filter="0"]');
-//On recupère la référence de tous les boutons de filtre
+//Gathering the references of all filter button data-filter
 const buttons = document.querySelectorAll('.filter-option[data-filter]');
 //Set() permettant de stocker les filtres actifs
 const activeFilters = new Set();
 let works = [];
-let categorySelection = document.getElementById('category');
+let categorySelection = document.getElementById('categories');
 
 
-// EVT LISTENERS  --------------
+// ---------- EVT LISTENERS ----------
 logInOutBtn.addEventListener('click', function () {
     // Remove the token from local storage
     localStorage.removeItem('token');
     // Redirect the user to the logout page or any desired page
-    window.location.href = "index.html";
+    window.location.href = "login.html";
 });
-
+window.addEventListener('click', function (event) {
+    if (isModalOpen && event.target !== modal && !modal.contains(event.target)) {
+        setTimeout(function () {
+            modal.style.display = 'none';
+            main.classList.remove('--blurEffect');
+            header.classList.remove('--blurEffect');
+            body.classList.remove('--grayEffect');
+            toggleModalStatus();
+        }, 250);
+    }
+});
 modifyButton.addEventListener('click', function () {
     modal.style.display = 'block'
     manageGallery.style.display = "flex"
@@ -43,31 +56,70 @@ modifyButton.addEventListener('click', function () {
     main.classList.add('--blurEffect')
     header.classList.add('--blurEffect')
     body.classList.add('--grayEffect')
+    toggleModalStatus();
 });
-
 modalCloseBtn.forEach(function (closeBtn) {
     closeBtn.addEventListener('click', function () {
         modal.style.display = 'none'
         main.classList.remove('--blurEffect')
         header.classList.remove('--blurEffect')
         body.classList.remove('--grayEffect')
+        toggleModalStatus();
     })
 });
-
 addAPictureBtn.addEventListener('click', function () {
     manageGallery.style.display = "none"
     managePic.style.display = "flex"
 });
-
 arrowLeft.addEventListener('click', function () {
     managePic.style.display = "none"
     manageGallery.style.display = "flex"
 });
+editionModeBtn.addEventListener('click', function () {
+    modal.style.display = 'block'
+    manageGallery.style.display = "flex"
+    managePic.style.display = "none"
+    main.classList.add('--blurEffect')
+    header.classList.add('--blurEffect')
+    body.classList.add('--grayEffect')
+    toggleModalStatus();
+});
+publicateChangesBtn.addEventListener('click', function () {
+    modal.style.display = 'block'
+    manageGallery.style.display = "none"
+    managePic.style.display = "flex"
+    main.classList.add('--blurEffect')
+    header.classList.add('--blurEffect')
+    body.classList.add('--grayEffect')
+    toggleModalStatus();
+});
+form.addEventListener('submit', async function (event) {
+    event.preventDefault(); // prevent default form submission
+    const formData = new FormData(form);
+    try {
+        const response = await fetch('http://localhost:5678/api/works', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.status === 201) {
+            const data = await response.json();
+            fetchAndRefresh();
+            console.log('Work Created', data);
+        } else {
+            throw new Error('Failed to create work');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+});
 
 
-//FUNCTIONS
-
-// Fonction qui applique les filtres, et affiche les travaux filtrés
+//---------- FUNCTIONS ----------
+//Apply filters and show the filetered works
 function applyFilters() {
     //On verifie s'il n'y a pas de filtre actif
     if (activeFilters.size === 0) {
@@ -83,18 +135,22 @@ function applyFilters() {
     }
     console.log('filterApplied')
 }
+//Fetch the data from database
 async function fetchData() {
     const response = await fetch(`http://localhost:5678/api/works`);
     works = await response.json();
     console.log('Data Fetched')
 }
-async function refreshGallery() {
+//Cleanse and regenerate data by fetching the work list from the database
+async function fetchAndRefresh() {
     mainGallery.innerHTML = "";
+    smlGallery.innerHTML = "";
     await fetchData();
     generateWorks(works);
-    console.log('Gallery Refreshed')
+    generateModalWorks(works);
+    console.log('Galleries Refreshed')
 }
-//Fonction qui nettoie la galerie et affiche la liste de travaux spécifié
+//Cleanse without fetching the gallery and show a specific list of work
 function cleanseAndShow(workList) {
     /* console.log('CleanseandShowStart') */
     mainGallery.innerHTML = "";
@@ -103,7 +159,7 @@ function cleanseAndShow(workList) {
     generateModalWorks(workList);
     /* console.log('CleanseandShowEnd') */
 }
-
+//Main function, initial call to fecth data on page load
 async function getWorksDataOnLoad() {
     //Recupération des données via l'API & Conversion des données au format json
     fetchData();
@@ -172,7 +228,6 @@ function generateWorks(works) {
     }
     console.log('GeneratedWorks')
 }
-
 //Fonction qui génère les travaux dans le modal au chargement de la page
 function generateModalWorks(works) {
     for (let i = 0; i < works.length; i++) {
@@ -191,7 +246,6 @@ function generateModalWorks(works) {
 
         //Add an event listener to each work and stores it if clicked  
         workDelIcon.addEventListener("click", async function () {
-            /**/
             if (confirm("Are you sure you want to delete this work?")) {
                 try {
                     // Send the DELETE request
@@ -206,8 +260,7 @@ function generateModalWorks(works) {
                     if (response.status === 200 || response.status === 204) {
                         // Work deleted successfully, remove the work element from the gallery
                         workElement.remove();
-                        refreshGallery();
-                        /**/
+                        fetchAndRefresh();
                         console.log("Work deleted:", work);
                     } else {
                         throw new Error('Failed to delete work');
@@ -221,17 +274,22 @@ function generateModalWorks(works) {
     }
     console.log('GeneratedModalWorks')
 }
-function imgSelectionToggle(workImage) {
-    if (workImage.classList.contains('--imgSelected')) {
-        workImage.classList.remove('--imgSelected');
-    } else {
-        workImage.classList.add('--imgSelected');
-    }
+//Generate dynamicaly the categories in the modal
+function generateCategoriesInModal(categories) {
+    categories.forEach(function (category) {
+        const option = document.createElement('option');
+        option.value = category.id;
+        option.textContent = category.name;
+        categorySelection.appendChild(option)
+    });
+    console.log('GeneratedCategoriesInModal')
 }
+//Add the top blackline modification tool when user is logged in
 function addTopBlackLine() {
     topBlackLine.style.display = "flex"
     header.classList.add("--adjustedMainHeader")
 }
+//Show the modification buttons when user is logged in
 function addModifyButton() {
     modifyButton.style.display = "inline-block";
     modifyProfilBtn.style.display = "inline-block";
@@ -242,166 +300,38 @@ function swapLoginLogout() {
     logInOutBtn.innerText = "logout"
     logInOutBtn.href = "#"
 }
-
-form.addEventListener('submit', async function (event) {
-    event.preventDefault(); // prevent default form submission
-  
-    const formData = new FormData(form);
-  
-    const photo = formData.get('photo');
-    console.log('photo', photo);
-    const title = formData.get('nomProjet');
-    console.log('title:', title);
-    const category = formData.get('category');
-    console.log('category:', category);
-  
-    console.log(formData)
-   /*  for (const pair of formData.entries()) {
-      console.log(`${pair[0]}: ${pair[1]}`);
-    } */
-    try {
-      const response = await fetch('http://localhost:5678/api/works', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
-        },
-        method: 'POST',
-        body: {
-            "title": "Untrire",
-            "image": "Blabla",
-            "category": 1
-          }
-      });
-  
-      if (response.status === 201) {
-        const data = await response.json();
-        console.log('Work Created', data);
-      } else {
-        throw new Error('Failed to create work');
-      }
-    } catch (error) {
-      console.error(error);
+//Change the status of the modal, visible true or false
+function toggleModalStatus() {
+    setTimeout(function () {
+        if (isModalOpen) {
+            isModalOpen = false;
+        } else {
+            isModalOpen = true;
+        }
+        console.log("ModalOpen:", isModalOpen)
+    }, 100);
+}
+//Bonus function which is not applied atm but aim to let the user select multiple images before deleting them
+function imgSelectionToggle(workImage) {
+    if (workImage.classList.contains('--imgSelected')) {
+        workImage.classList.remove('--imgSelected');
+    } else {
+        workImage.classList.add('--imgSelected');
     }
-  });
-
-/* 
-form.addEventListener('submit', function (event) {
-    event.preventDefault();//prevent default form sub
-    //We get the form data
-    const formData = new FormData(form);
-
-    for (const pair of formData.entries()) {
-        console.log(`${pair[0]}: ${pair[1]}`);
-    }
-    const title = formData.get('nomProjet'); // retrieve the value of the "nomProjet" field
-    console.log('title:', title);
-    const photo = formData.get('photo');
-    console.log('photo', photo);
-
-    //We Send the POST request
-    fetch('http://localhost:5678/api/works', {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-        },
-        method: 'POST',
-        body: formData
-    })
-        .then(response => {
-            console.log(response)
-            if (response.status === 201) {
-                return response.json();
-            } else {
-                throw new Error('Failed to create work')
-            }
-        })
-        .then(data => {
-            console.log('Work Created', data)
-        })
-        .catch(error => {
-            console.error(error);
-        })
-}); */
-
-function generateCategoriesInModal(categories) {
-    categories.forEach(function (category) {
-        const option = document.createElement('option');
-        option.value = category.id;
-        option.textContent = category.name;
-        categorySelection.appendChild(option)
-    });
-    console.log('GeneratedCategoriesInModal')
 }
 
+
+//---------- PROCESS ----------
 if (token) {
     // Token exists, user is logged in
-    // Show the desired content or enable specific functionality
     addTopBlackLine();
     addModifyButton();
     swapLoginLogout();
-    /* console.log('User is logged in'); */
+    console.log('User is logged in');
 } else {
     // Token doesn't exist, user is not logged in
-    // Show a login form or redirect the user to the login page
     console.log('User is not logged in');
 }
 
-
-
-//Call initial pour charger les données et afficher les travaux
+//Initial call
 getWorksDataOnLoad();
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* // Send the DELETE request
-           fetch(`http://localhost:5678/api/works/${selectedWork.id}`, {
-               headers: {
-                   'Authorization': `Bearer ${token}`,
-               },
-               method: 'DELETE',
-           })
-           .then(response => {
-               if (response.status === 200) {
-                   // Work deleted successfully, remove the work element from the gallery
-                   workElement.remove();
-                   console.log("Work deleted:", selectedWork);
-               } else {
-                   throw new Error('Failed to delete work');
-               }
-           })
-           .catch(error => {
-               console.error(error);
-           });
-       }
-       console.log("Work selected:", selectedWork, "Ready to be deleted"); */
-
-
-
-
-
-
-
-/* */
-
-/* const gallery = document.querySelector(".gallery");
-                workElementSiblingInMainGallery = Array.from(gallery.children).find(element =>
-                    element.querySelector('img').src === workImage.src);
-                if (workElementSiblingInMainGallery) {
-                    workElementSiblingInMainGallery.remove();
-                } */
-
-
-                        // Set the selected work
-/*  workImage.classList.add('--imgSelected'); */
-/*  selectedWork = work; */
-            //handle delete here
-/* imgSelectionToggle(workImage); */

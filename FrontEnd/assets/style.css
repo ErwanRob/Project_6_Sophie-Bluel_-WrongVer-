@@ -211,11 +211,13 @@ li:hover {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
-	grid-row-gap: 20px;
+	grid-row-gap: 30px;
 }
 
 .gallery img {
 	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 #contact {
 	width: 50%;
@@ -253,7 +255,7 @@ input[type="submit"] {
 	font-weight: 700;
 	color: white;
 	background-color: #1d6154;
-	margin: 2em auto;
+	margin: 0px auto 2em auto;
 	width: 180px;
 	text-align: center;
 	border-radius: 60px;
@@ -401,17 +403,16 @@ footer nav ul {
 	display: none;
 	position: fixed;
 	box-sizing: border-box;
-	/* 	overflow: hidden; */
 	z-index: 1;
 	margin: auto;
 	overflow: auto;
-	padding: 60px 105px 50px 105px;
+	padding: 60px 100px 50px 100px;
 	border-radius: 10px;
 	left: 0;
 	top: 200px;
 	right: 0;
 	bottom: 200px;
-	width: 630px;
+	width: 650px;
 	height: 730px;
 	background: #ffffff;
 	animation: modalAppear 300ms ease-in;
@@ -423,7 +424,6 @@ footer nav ul {
 	align-items: center;
 	width: 100%;
 	height: 100%;
-	gap: 40px;
 }
 
 #sbModal .close {
@@ -449,6 +449,7 @@ footer nav ul {
 	font-weight: 400;
 	font-size: 26px;
 	line-height: 30px;
+	margin-bottom: 40px;
 }
 
 .smlGallery {
@@ -456,15 +457,23 @@ footer nav ul {
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	grid-column-gap: 9px;
 	grid-row-gap: 12px;
+	height: 500px;
+	overflow: auto;
 }
+
 .smlGallery img {
 	width: 78px;
 	height: 100px;
-	cursor: grab;
 }
 
 .--imgSelected {
 	opacity: 0.5;
+}
+.--imgSelected::after {
+	content: "";
+	width: 100%;
+	height: 100%;
+	background:red;
 }
 
 .smlGallery i {
@@ -482,10 +491,22 @@ footer nav ul {
 	position: relative;
 }
 
+.grayLine {
+	margin: 50px 0px 40px 0px;
+	width: 100%;
+	border-top: 2px solid #b3b3b3;
+}
+
 .addPic_btn {
+	display: flex;
 	width: 237px;
 	height: 36px;
+	padding: 10px 48px;
+	font-size: 14px;
 	font-weight: 700;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 25px;
 }
 
 .delete_btn {
@@ -497,7 +518,7 @@ footer nav ul {
 	background-color: #fff;
 }
 
-.pic_add-img-label  {
+.pic_add-img-label {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -508,12 +529,13 @@ footer nav ul {
 	border-radius: 5px;
 }
 
-.pic_add-title-label, .pic_add-category-label {
+.pic_add-title-label,
+.pic_add-category-label {
 	margin-top: 30px;
 }
 
 #photo {
-	/* display: none; */
+	display: none;
 }
 
 #file-upload-button {
@@ -538,8 +560,6 @@ footer nav ul {
 	margin-top: 8px;
 }
 
-
-
 .--grayEffect {
 	background: rgba(0, 0, 0, 0.3);
 	animation: smoothingbgcolor 250ms ease;
@@ -561,7 +581,7 @@ footer nav ul {
 	width: 420px;
 	height: 51px;
 	margin-top: 10px;
-	margin-bottom: 20px;
+
 	border: 0px solid;
 	background-color: transparent;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.2);
@@ -572,6 +592,7 @@ footer nav ul {
 }
 
 #submitBtn {
+	margin: 0 auto;
 	padding: 10px 50px;
 	width: 237px;
 }
@@ -597,7 +618,7 @@ footer nav ul {
 #login input {
 	height: 50px;
 	font-size: 1.2em;
-	border: none;
+	/* border: none; */
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 #login label {
@@ -606,6 +627,51 @@ footer nav ul {
 #login textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+#email, #pass {
+	border:none;
+}
+
+/*     -----------------------  my code ----------------------- */
+
+.loginErr {
+	background-color: rgba(255, 68, 68, 0.445);
+	border: 2px solid rgba(255, 68, 68, 0.445);
+	animation: shake 100ms ease-in 4;
+}
+
+.forgotpw {
+	display: flex;
+	justify-content: center;
+	color: black;
+}
+
+#loginErr-message {
+	display:flex;
+	justify-content: center;
+	height: 24px;
+	margin: 20px 0px 20px 0px;
+	font-size: 16px;
+	color: red;
+}
+
+@keyframes shake {
+	0% {
+		transform: translateX(0px);
+	}
+	25% {
+		transform: translateX(-8px);
+	}
+	50% {
+		transform: translateX(0px);
+	}
+	75% {
+		transform: translateX(8px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
 @keyframes modalAppear {

@@ -43,6 +43,7 @@
 			<div class="smlGallery">
 				<!-- JS script adds figures/img here -->
 			</div>
+			<div class="grayLine"></div>
 			<button class="addPic_btn rounded --selected">Ajouter une photo</button>
 			<button class="delete_btn">Supprimer une gallerie</button>
 		</div>
@@ -56,23 +57,24 @@
 
 			<!-- 	<div class="pic_add-img">Add a photohere</div> --><!-- A mettre dans le formulaire ?? -->
 
-			<!-- <i class="fa-regular fa-image addPicIcon"></i>
-			<p class="addPic_Description-title">Ajouter une photo</p>
-			<p class="addPic_Description-byline">jpg, png : 4mo max</p> -->
 
 			<form id="submitForm" enctype="multipart/form-data">
-				<label for="photo" class="pic_add-img-label"></label>
-				<input name="photo" type="file" id="photo" accept=".png, .jpg"/>
-				
-				<label for="nomProjet" class="pic_add-title-label">Titre</label>
-				<input name="nomProjet" type="text" id="nomProjet" class="select-title" value="Jeanbernard"/>
-				
-				<label for="category" class="pic_add-category-label">Catégorie</label>
-				<select name="category" id="category" class="select-category">
+				<label for="photo" class="pic_add-img-label">
+					<i class="fa-regular fa-image addPicIcon"></i>
+					<p class="addPic_Description-title">Ajouter une photo</p>
+					<p class="addPic_Description-byline">jpg, png : 4mo max</p>
+				</label>
+				<input name="image" type="file" id="photo" accept=".png, .jpg" />
+
+				<label for="titleProjet" class="pic_add-title-label">Titre</label>
+				<input name="title" type="text" id="titleProjet" class="select-title" value="Test" />
+
+				<label for="categories" class="pic_add-category-label">Catégorie</label>
+				<select name="category" id="categories" class="select-category">
 
 					<!-- Options added via js funct generateCategoriesInModal()-->
 				</select>
-				
+				<div class="grayLine"></div>
 				<input type="submit" value="Valider" id="submitBtn" />
 			</form>
 
